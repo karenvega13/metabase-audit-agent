@@ -1,0 +1,33 @@
+{
+  "_doc": "Config para src/core/remediation/agregar_filtro_pais.py. Editable: anexar países al catálogo, setear columnas reales cuando country_id se propague de shipments_db a analytics_db, ajustar default si data_owner cambia de criterio.",
+
+  "_parameter_type_doc": "type 'string/=' es el estándar moderno (otros filtros del dashboard lo usan). Los IDs van como string en values_source_config — Metabase castea al matchear con la columna country_id (integer). Default=null para que el clause [[AND ...]] sea no-op mientras country_id no esté en analytics_db.",
+  "parameter": {
+    "name": "Country",
+    "slug": "country",
+    "type": "string/=",
+    "default": null
+  },
+
+  "country_catalog": [
+    {"id": 1, "name": "region_1"},
+    {"id": 2, "name": "region_2"},
+    {"id": 3, "name": "region_3"},
+    {"id": 4, "name": "region_4"},
+    {"id": 5, "name": "region_5"}
+  ],
+
+  "_country_aware_tables_doc": "Tablas donde existirá country_id cuando Perla termine la propagación a analytics_db. Cards SQL nativas que consulten cualquiera de estas tablas reciben inyección de [[AND <alias>.country_id::text = {{country}}]] (no-op por default=null). Cards MBQL se loguean como skip — necesitan field_id que solo existe cuando la columna esté en analytics_db. Cards SQL complejas (CTEs, multi-SELECT) también se skipean para revisión manual.",
+  "country_aware_tables": ["transaction", "transaction_details"],
+  "sql_template_tag_name": "country",
+  "sql_marker": "/* COUNTRY_FILTER_AUTO */",
+
+  "_dashboards_doc": "Nombres exactos como aparecen en Metabase (verificados via /api/search 2026-04-27). data_owner confirmó incluir las 3 variantes de Main Dashboard.",
+  "dashboards": [
+    {"name": "Main Dashboard", "id": 19},
+    {"name": "Main Dashboard v2", "id": 81},
+    {"name": "\ud83d\ude80 Main Dashboard v2 (Optimizado)", "id": 65},
+    {"name": "Active Users Dashboard", "id": 43},
+    {"name": "New Users (fka Acquisitions)", "id": 21}
+  ]
+}

@@ -1,0 +1,6 @@
+openai>=1.0
+requests
+openpyxl
+psycopg2-binary
+mkdocs
+mkdocs-material
